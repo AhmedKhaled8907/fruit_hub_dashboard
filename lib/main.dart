@@ -6,6 +6,8 @@ import 'package:fruit_hub_dashboard/features/splash/views/splash_view.dart';
 import 'package:fruit_hub_dashboard/firebase_options.dart';
 import 'package:fruit_hub_dashboard/generated/l10n.dart';
 
+import 'core/utils/app_colors.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -30,6 +32,13 @@ class MyApp extends StatelessWidget {
       supportedLocales: S.delegate.supportedLocales,
       debugShowCheckedModeBanner: false,
       title: 'Fruit Hub Dashboard',
+      theme: ThemeData(
+        fontFamily: 'Cairo',
+        scaffoldBackgroundColor: Colors.white,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: AppColors.primaryColor,
+        ),
+      ),
       onGenerateRoute: onGenerateRoute,
       initialRoute: SplashView.routeName,
     );
