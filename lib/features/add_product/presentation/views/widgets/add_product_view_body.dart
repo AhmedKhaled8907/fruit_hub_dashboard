@@ -47,7 +47,9 @@ class _AddProductViewBodyState extends State<AddProductViewBody> {
                 maxLines: 5,
               ),
               const SizedBox(height: 16),
-              const ImageField(),
+              ImageField(
+                onFileChanged: (value) {},
+              ),
               const SizedBox(height: 24),
               CustomButton(
                 onPressed: () {},
