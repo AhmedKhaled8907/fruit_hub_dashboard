@@ -2,6 +2,10 @@
 class Assets {
   Assets._();
   
+  /// Assets for imagesApkImage
+  /// assets/images/apk_image.png
+  static const String imagesApkImage = "assets/images/apk_image.png";
+
   /// Assets for imagesAppIcon
   /// assets/images/app_icon.png
   static const String imagesAppIcon = "assets/images/app_icon.png";
@@ -26,9 +30,21 @@ class Assets {
   /// assets/images/filter.svg
   static const String imagesFilter = "assets/images/filter.svg";
 
+  /// Assets for imagesFilter2
+  /// assets/images/filter2.svg
+  static const String imagesFilter2 = "assets/images/filter2.svg";
+
+  /// Assets for imagesFruitTest
+  /// assets/images/fruit_test.svg
+  static const String imagesFruitTest = "assets/images/fruit_test.svg";
+
   /// Assets for imagesGoogleIcon
   /// assets/images/google_icon.svg
   static const String imagesGoogleIcon = "assets/images/google_icon.svg";
+
+  /// Assets for imagesImagesFeaturedItemBackground2
+  /// assets/images/imagesFeaturedItemBackground2.svg
+  static const String imagesImagesFeaturedItemBackground2 = "assets/images/imagesFeaturedItemBackground2.svg";
 
   /// Assets for imagesLogo
   /// assets/images/logo.svg
@@ -69,6 +85,10 @@ class Assets {
   /// Assets for imagesSplashBottom
   /// assets/images/splash_bottom.svg
   static const String imagesSplashBottom = "assets/images/splash_bottom.svg";
+
+  /// Assets for imagesTrash
+  /// assets/images/trash.svg
+  static const String imagesTrash = "assets/images/trash.svg";
 
   /// Assets for imagesVector
   /// assets/images/Vector.svg
