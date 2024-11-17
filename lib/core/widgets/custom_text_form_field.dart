@@ -30,7 +30,12 @@ class CustomTextFormField extends StatelessWidget {
       maxLines: maxLines,
       obscureText: obscureText,
       onSaved: onSaved,
-      // validator: validator,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Field is required';
+        }
+        return null;
+      },
       keyboardType: keyboardType,
       style: TextStyles.semiBold16,
       decoration: InputDecoration(
@@ -50,8 +55,13 @@ class CustomTextFormField extends StatelessWidget {
         ),
         enabledBorder: outline(),
         focusedBorder: outline(),
-        errorBorder: outline(),
         border: outline(),
+        errorBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderSide: BorderSide(
+            color: Colors.red,
+          ),
+        ),
       ),
     );
   }

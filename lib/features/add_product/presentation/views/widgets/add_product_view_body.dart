@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:fruit_hub_dashboard/core/widgets/custom_button.dart';
 import 'package:fruit_hub_dashboard/core/widgets/custom_text_form_field.dart';
+import 'package:fruit_hub_dashboard/features/add_product/presentation/views/widgets/is_featured.dart';
 
 import 'image_field.dart';
 
@@ -15,6 +18,11 @@ class _AddProductViewBodyState extends State<AddProductViewBody> {
   var formKey = GlobalKey<FormState>();
   var autovalidateMode = AutovalidateMode.disabled;
 
+  late String productName, productCode, productDescription;
+  late num productPrice;
+  bool isFeatured = false;
+  File? productImage;
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -26,35 +34,71 @@ class _AddProductViewBodyState extends State<AddProductViewBody> {
           child: Column(
             children: [
               const SizedBox(height: 24),
-              const CustomTextFormField(
+              CustomTextFormField(
                 hintText: 'Product Name',
                 keyboardType: TextInputType.text,
+                onSaved: (value) {
+                  productName = value!;
+                },
               ),
               const SizedBox(height: 16),
-              const CustomTextFormField(
+              CustomTextFormField(
                 hintText: 'Product Price',
                 keyboardType: TextInputType.number,
+                onSaved: (value) {
+                  productPrice = num.parse(value!);
+                },
               ),
               const SizedBox(height: 16),
-              const CustomTextFormField(
+              CustomTextFormField(
                 hintText: 'Product Code',
                 keyboardType: TextInputType.text,
+                onSaved: (value) {
+                  productCode = value!.toLowerCase();
+                },
               ),
               const SizedBox(height: 16),
-              const CustomTextFormField(
+              CustomTextFormField(
                 hintText: 'Product Description',
                 keyboardType: TextInputType.number,
                 maxLines: 5,
+                onSaved: (value) {
+                  productDescription = value!;
+                },
               ),
               const SizedBox(height: 16),
+              IsFeatured(onChanged: (value) {
+                isFeatured = value;
+              }),
+              const SizedBox(height: 16),
               ImageField(
-                onFileChanged: (value) {},
+                onFileChanged: (value) {
+                  productImage = value;
+                },
               ),
               const SizedBox(height: 24),
               CustomButton(
-                onPressed: () {},
+                onPressed: () {
+                  if (productImage != null) {
+                    if (formKey.currentState!.validate()) {
+                      formKey.currentState!.save();
+                      autovalidateMode = AutovalidateMode.disabled;
+                      setState(() {});
+                    } else {
+                      autovalidateMode = AutovalidateMode.always;
+                      setState(() {});
+                    }
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Please select an image'),
+                      ),
+                    );
+                  }
+                },
                 text: "Add Product",
               ),
+              const SizedBox(height: 16),
             ],
           ),
         ),

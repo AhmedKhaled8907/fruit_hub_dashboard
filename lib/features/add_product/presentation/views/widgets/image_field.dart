@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:fruit_hub_dashboard/core/utils/app_colors.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -33,6 +34,7 @@ class _ImageFieldState extends State<ImageField> {
               height: MediaQuery.sizeOf(context).height * 0.25,
               width: double.infinity,
               decoration: BoxDecoration(
+                color: AppColors.textFormFieldColor,
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
                   color: const Color(0xffE6E9EA),
