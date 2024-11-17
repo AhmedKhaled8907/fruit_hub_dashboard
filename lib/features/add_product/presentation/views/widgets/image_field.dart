@@ -1,17 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:fruit_hub_dashboard/core/utils/app_colors.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class ImageField extends StatefulWidget {
-  const ImageField({
-    super.key,
-    required this.onFileChanged,
-  });
+  const ImageField({super.key, required this.onFileChanged});
   final ValueChanged<File?> onFileChanged;
-
   @override
   State<ImageField> createState() => _ImageFieldState();
 }
@@ -19,14 +14,22 @@ class ImageField extends StatefulWidget {
 class _ImageFieldState extends State<ImageField> {
   bool isLoading = false;
   File? fileImage;
-
   @override
   Widget build(BuildContext context) {
     return Skeletonizer(
       enabled: isLoading,
       child: GestureDetector(
         onTap: () async {
-          await pickImage();
+          isLoading = true;
+          setState(() {});
+          try {
+            await pickImage();
+          } catch (e) {
+            isLoading = false;
+            setState(() {});
+          }
+          isLoading = false;
+          setState(() {});
         },
         child: Stack(
           children: [
@@ -34,32 +37,35 @@ class _ImageFieldState extends State<ImageField> {
               height: MediaQuery.sizeOf(context).height * 0.25,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: AppColors.textFormFieldColor,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(
-                  color: const Color(0xffE6E9EA),
-                ),
-              ),
+                  borderRadius: BorderRadius.circular(
+                    16,
+                  ),
+                  border: Border.all(
+                    color: Colors.grey,
+                  )),
               child: fileImage != null
-                  ? Image.file(
-                      fileImage!,
-                      fit: BoxFit.fill,
-                    )
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: Image.file(fileImage!))
                   : const Icon(
                       Icons.image_outlined,
-                      size: 160,
+                      size: 180,
                     ),
             ),
-            if (fileImage != null)
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    fileImage = null;
-                    widget.onFileChanged(fileImage);
-                  });
+            Visibility(
+              visible: fileImage != null,
+              child: IconButton(
+                onPressed: () {
+                  fileImage = null;
+                  widget.onFileChanged(fileImage);
+                  setState(() {});
                 },
-                child: removeIcon(),
+                icon: const Icon(
+                  Icons.close,
+                  color: Colors.red,
+                ),
               ),
+            )
           ],
         ),
       ),
@@ -67,38 +73,11 @@ class _ImageFieldState extends State<ImageField> {
   }
 
   Future<void> pickImage() async {
-    setState(() {
-      isLoading = true;
-    });
     final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(
-      source: ImageSource.gallery,
-    );
-    fileImage = File(image!.path);
-    widget.onFileChanged(fileImage);
-    setState(() {
-      isLoading = false;
-    });
-  }
 
-  Container removeIcon() {
-    return Container(
-      width: 40,
-      height: 40,
-      margin: const EdgeInsets.all(16),
-      decoration: const ShapeDecoration(
-        shape: CircleBorder(
-          side: BorderSide(
-            color: Colors.white,
-            width: 2,
-          ),
-        ),
-        color: Colors.red,
-      ),
-      child: const Icon(
-        Icons.remove_circle,
-        color: Colors.white,
-      ),
-    );
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    fileImage = File(image!.path);
+
+    widget.onFileChanged(fileImage!);
   }
 }

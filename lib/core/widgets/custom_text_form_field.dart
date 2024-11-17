@@ -8,21 +8,19 @@ class CustomTextFormField extends StatelessWidget {
     super.key,
     required this.hintText,
     required this.keyboardType,
-    this.suffixIcon,
     this.onSaved,
     this.obscureText = false,
     // required this.validator,
     this.maxLines = 1,
+    this.prefixText = '  ',
   });
 
   final String hintText;
   final TextInputType? keyboardType;
-  final Widget? suffixIcon;
   final void Function(String?)? onSaved;
-  // final String? Function(String?)? validator;
   final int? maxLines;
-
   final bool obscureText;
+  final String? prefixText;
 
   @override
   Widget build(BuildContext context) {
@@ -39,20 +37,17 @@ class CustomTextFormField extends StatelessWidget {
       keyboardType: keyboardType,
       style: TextStyles.semiBold16,
       decoration: InputDecoration(
+        prefixText: prefixText,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 20,
           vertical: 16,
         ),
         hintText: hintText,
         hintStyle: TextStyles.bold13.copyWith(
-          color: Colors.grey.shade600,
+          color: Colors.grey.shade500,
         ),
         filled: true,
         fillColor: AppColors.textFormFieldColor,
-        suffixIcon: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: suffixIcon,
-        ),
         enabledBorder: outline(),
         focusedBorder: outline(),
         border: outline(),

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:fruit_hub_dashboard/features/add_product/domain/entities/add_product_input_entity.dart';
 
 class AddProductInputModel {
@@ -8,7 +6,6 @@ class AddProductInputModel {
   final String description;
   final num price;
   final bool isFeatured;
-  final File image;
   String? imageUrl;
 
   AddProductInputModel({
@@ -17,7 +14,6 @@ class AddProductInputModel {
     required this.description,
     required this.price,
     required this.isFeatured,
-    required this.image,
     this.imageUrl,
   });
 
@@ -28,7 +24,6 @@ class AddProductInputModel {
       description: entity.description,
       price: entity.price,
       isFeatured: entity.isFeatured,
-      image: entity.image,
       imageUrl: entity.imageUrl,
     );
   }
@@ -40,7 +35,6 @@ class AddProductInputModel {
       'description': description,
       'price': price,
       'isFeatured': isFeatured,
-      'image': image,
       'imageUrl': imageUrl,
     };
   }

@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fruit_hub_dashboard/core/widgets/custom_button.dart';
 import 'package:fruit_hub_dashboard/core/widgets/custom_text_form_field.dart';
 import 'package:fruit_hub_dashboard/features/add_product/domain/entities/add_product_input_entity.dart';
+import 'package:fruit_hub_dashboard/features/add_product/presentation/cubits/cubit/add_product_cubit.dart';
 import 'package:fruit_hub_dashboard/features/add_product/presentation/views/widgets/is_featured.dart';
 
 import 'image_field.dart';
@@ -16,99 +18,121 @@ class AddProductViewBody extends StatefulWidget {
 }
 
 class _AddProductViewBodyState extends State<AddProductViewBody> {
-  var formKey = GlobalKey<FormState>();
-  var autovalidateMode = AutovalidateMode.disabled;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
 
-  late String productName, productCode, productDescription;
-  late num productPrice;
+  late String name, code, description;
+  late num price;
+  File? image;
   bool isFeatured = false;
-  File? productImage;
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
         child: Form(
-          key: formKey,
+          key: _formKey,
           autovalidateMode: autovalidateMode,
           child: Column(
             children: [
-              const SizedBox(height: 24),
               CustomTextFormField(
+                onSaved: (value) {
+                  name = value!;
+                },
                 hintText: 'Product Name',
                 keyboardType: TextInputType.text,
-                onSaved: (value) {
-                  productName = value!;
-                },
               ),
-              const SizedBox(height: 16),
+              const SizedBox(
+                height: 16,
+              ),
               CustomTextFormField(
+                prefixText: '\$',
+                onSaved: (value) {
+                  price = num.parse(value!);
+                },
                 hintText: 'Product Price',
                 keyboardType: TextInputType.number,
-                onSaved: (value) {
-                  productPrice = num.parse(value!);
-                },
               ),
-              const SizedBox(height: 16),
+              const SizedBox(
+                height: 16,
+              ),
               CustomTextFormField(
+                onSaved: (value) {
+                  code = value!.toLowerCase();
+                },
                 hintText: 'Product Code',
-                keyboardType: TextInputType.text,
-                onSaved: (value) {
-                  productCode = value!.toLowerCase();
-                },
-              ),
-              const SizedBox(height: 16),
-              CustomTextFormField(
-                hintText: 'Product Description',
                 keyboardType: TextInputType.number,
-                maxLines: 5,
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              CustomTextFormField(
                 onSaved: (value) {
-                  productDescription = value!;
+                  description = value!;
+                },
+                hintText: 'Product Description',
+                keyboardType: TextInputType.text,
+                maxLines: 5,
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              IsFeatured(
+                onChanged: (value) {
+                  isFeatured = value;
                 },
               ),
-              const SizedBox(height: 16),
-              IsFeatured(onChanged: (value) {
-                isFeatured = value;
-              }),
-              const SizedBox(height: 16),
+              const SizedBox(
+                height: 16,
+              ),
               ImageField(
-                onFileChanged: (value) {
-                  productImage = value;
+                onFileChanged: (image) {
+                  this.image = image;
                 },
               ),
-              const SizedBox(height: 24),
+              const SizedBox(
+                height: 24,
+              ),
               CustomButton(
                 onPressed: () {
-                  if (productImage != null) {
-                    if (formKey.currentState!.validate()) {
-                      formKey.currentState!.save();
-                      var input = AddProductInputEntity(
-                        name: productName,
-                        code: productCode,
-                        description: productDescription,
-                        price: productPrice,
+                  if (image != null) {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      AddProductInputEntity input = AddProductInputEntity(
+                        name: name,
+                        code: code,
+                        description: description,
+                        price: price,
+                        image: image!,
                         isFeatured: isFeatured,
-                        image: productImage!,
                       );
+
+                      context.read<AddProductCubit>().addProduct(input);
                     } else {
                       autovalidateMode = AutovalidateMode.always;
                       setState(() {});
                     }
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Please select an image'),
-                      ),
-                    );
+                    showError(context);
                   }
                 },
-                text: "Add Product",
+                text: 'Add Product',
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 24),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  void showError(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Please select an image'),
       ),
     );
   }

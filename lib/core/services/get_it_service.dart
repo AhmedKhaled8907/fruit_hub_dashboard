@@ -11,15 +11,19 @@ import 'package:get_it/get_it.dart';
 final getIt = GetIt.instance;
 
 void setupGetIt() {
-  getIt.registerSingleton<StorageService>(FireStorage());
+  getIt.registerSingleton<StorageService>(
+    FireStorage(),
+  );
 
-  getIt.registerSingleton<DatabaseService>(FirestoreService());
+  getIt.registerSingleton<DatabaseService>(
+    FirestoreService(),
+  );
 
   getIt.registerSingleton<ImagesRepo>(
     ImagesRepoImpl(getIt<StorageService>()),
   );
 
   getIt.registerSingleton<ProductRepo>(
-    ProductRepoImpl(getIt<FirestoreService>()),
+    ProductRepoImpl(getIt<DatabaseService>()),
   );
 }
