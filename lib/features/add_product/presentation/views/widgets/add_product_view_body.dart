@@ -49,7 +49,6 @@ class _AddProductViewBodyState extends State<AddProductViewBody> {
                 height: 16,
               ),
               CustomTextFormField(
-                prefixText: '\$',
                 onSaved: (value) {
                   price = num.parse(value!);
                 },

@@ -12,7 +12,6 @@ class CustomTextFormField extends StatelessWidget {
     this.obscureText = false,
     // required this.validator,
     this.maxLines = 1,
-    this.prefixText = '  ',
   });
 
   final String hintText;
@@ -20,7 +19,6 @@ class CustomTextFormField extends StatelessWidget {
   final void Function(String?)? onSaved;
   final int? maxLines;
   final bool obscureText;
-  final String? prefixText;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +35,6 @@ class CustomTextFormField extends StatelessWidget {
       keyboardType: keyboardType,
       style: TextStyles.semiBold16,
       decoration: InputDecoration(
-        prefixText: prefixText,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 20,
           vertical: 16,

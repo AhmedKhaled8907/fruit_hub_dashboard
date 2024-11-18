@@ -37,8 +37,8 @@ class _IsFeaturedState extends State<IsFeatured> {
               children: [
                 TextSpan(
                   text: 'Is Featured Product?',
-                  style: TextStyles.semiBold16.copyWith(
-                    color: AppColors.greyColor,
+                  style: TextStyles.bold13.copyWith(
+                    color: Colors.grey.shade500,
                   ),
                 ),
               ],
