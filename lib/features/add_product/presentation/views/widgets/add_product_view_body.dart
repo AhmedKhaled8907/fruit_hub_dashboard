@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fruit_hub_dashboard/core/widgets/custom_button.dart';
 import 'package:fruit_hub_dashboard/core/widgets/custom_text_form_field.dart';
 import 'package:fruit_hub_dashboard/features/add_product/domain/entities/product_entity.dart';
+import 'package:fruit_hub_dashboard/features/add_product/domain/entities/review_entity.dart';
 import 'package:fruit_hub_dashboard/features/add_product/presentation/cubits/cubit/add_product_cubit.dart';
 import 'package:fruit_hub_dashboard/features/add_product/presentation/views/widgets/is_featured_check_box.dart';
 import 'package:fruit_hub_dashboard/features/add_product/presentation/views/widgets/is_organic_check_box.dart';
@@ -132,6 +133,16 @@ class _AddProductViewBodyState extends State<AddProductViewBody> {
                         isOrganic: isOrganic,
                         numberOfCalories: numberOfCalories.toInt(),
                         unitAmount: unitAmount.toInt(),
+                        reviews: [
+                          ReviewEntity(
+                            name: 'John Doe',
+                            date: DateTime.now().toString(),
+                            image:
+                                "https://en.wikipedia.org/wiki/File:Lionel-Messi-Argentina-2022-FIFA-World-Cup_(cropped).jpg",
+                            rating: 5,
+                            reviewDescription: 'This is a great product',
+                          ),
+                        ],
                       );
 
                       context.read<AddProductCubit>().addProduct(input);
