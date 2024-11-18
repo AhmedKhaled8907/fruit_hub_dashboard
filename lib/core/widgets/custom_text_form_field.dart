@@ -7,15 +7,14 @@ class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     super.key,
     required this.hintText,
-    required this.keyboardType,
+    required this.textInputType,
     this.onSaved,
     this.obscureText = false,
-    // required this.validator,
     this.maxLines = 1,
   });
 
   final String hintText;
-  final TextInputType? keyboardType;
+  final TextInputType? textInputType;
   final void Function(String?)? onSaved;
   final int? maxLines;
   final bool obscureText;
@@ -32,16 +31,16 @@ class CustomTextFormField extends StatelessWidget {
         }
         return null;
       },
-      keyboardType: keyboardType,
+      keyboardType: textInputType,
       style: TextStyles.semiBold16,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 20,
           vertical: 16,
         ),
-        hintText: hintText,
-        hintStyle: TextStyles.bold13.copyWith(
-          color: Colors.grey.shade500,
+        labelText: hintText,
+        labelStyle: TextStyles.semiBold16.copyWith(
+          color: AppColors.greyColor,
         ),
         filled: true,
         fillColor: AppColors.textFormFieldColor,

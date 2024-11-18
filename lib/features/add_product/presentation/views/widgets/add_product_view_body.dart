@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fruit_hub_dashboard/core/widgets/custom_button.dart';
 import 'package:fruit_hub_dashboard/core/widgets/custom_text_form_field.dart';
-import 'package:fruit_hub_dashboard/features/add_product/domain/entities/add_product_input_entity.dart';
+import 'package:fruit_hub_dashboard/features/add_product/domain/entities/product_entity.dart';
 import 'package:fruit_hub_dashboard/features/add_product/presentation/cubits/cubit/add_product_cubit.dart';
-import 'package:fruit_hub_dashboard/features/add_product/presentation/views/widgets/is_featured.dart';
+import 'package:fruit_hub_dashboard/features/add_product/presentation/views/widgets/is_featured_check_box.dart';
+import 'package:fruit_hub_dashboard/features/add_product/presentation/views/widgets/is_organic_check_box.dart';
 
 import 'image_field.dart';
 
@@ -22,9 +23,11 @@ class _AddProductViewBodyState extends State<AddProductViewBody> {
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
 
   late String name, code, description;
-  late num price;
+  late num price, expirationMonths, numberOfCalories, unitAmount;
   File? image;
   bool isFeatured = false;
+  bool isOrganic = false;
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -39,74 +42,96 @@ class _AddProductViewBodyState extends State<AddProductViewBody> {
           child: Column(
             children: [
               CustomTextFormField(
+                hintText: 'Product Name',
                 onSaved: (value) {
                   name = value!;
                 },
-                hintText: 'Product Name',
-                keyboardType: TextInputType.text,
+                textInputType: TextInputType.text,
               ),
-              const SizedBox(
-                height: 16,
-              ),
+              const SizedBox(height: 16),
               CustomTextFormField(
+                hintText: 'Product Price (\$)',
                 onSaved: (value) {
                   price = num.parse(value!);
                 },
-                hintText: 'Product Price',
-                keyboardType: TextInputType.number,
+                textInputType: TextInputType.number,
               ),
-              const SizedBox(
-                height: 16,
-              ),
+              const SizedBox(height: 16),
               CustomTextFormField(
-                onSaved: (value) {
-                  code = value!.toLowerCase();
-                },
                 hintText: 'Product Code',
-                keyboardType: TextInputType.number,
+                onSaved: (value) {
+                  code = value!;
+                },
+                textInputType: TextInputType.text,
               ),
-              const SizedBox(
-                height: 16,
-              ),
+              const SizedBox(height: 16),
               CustomTextFormField(
+                hintText: 'Expiration Months',
+                onSaved: (value) {
+                  expirationMonths = num.parse(value!);
+                },
+                textInputType: TextInputType.number,
+              ),
+              const SizedBox(height: 16),
+              CustomTextFormField(
+                hintText: 'Unit Amount',
+                onSaved: (value) {
+                  unitAmount = num.parse(value!);
+                },
+                textInputType: TextInputType.number,
+              ),
+              const SizedBox(height: 16),
+              CustomTextFormField(
+                hintText: 'Number Of Calories (g)',
+                onSaved: (value) {
+                  numberOfCalories = num.parse(value!);
+                },
+                textInputType: TextInputType.number,
+              ),
+              const SizedBox(height: 16),
+              CustomTextFormField(
+                hintText: 'Product Description',
                 onSaved: (value) {
                   description = value!;
                 },
-                hintText: 'Product Description',
-                keyboardType: TextInputType.text,
+                textInputType: TextInputType.text,
                 maxLines: 5,
               ),
-              const SizedBox(
-                height: 16,
-              ),
-              IsFeatured(
+              const SizedBox(height: 16),
+              IsFeaturedCheckBox(
                 onChanged: (value) {
                   isFeatured = value;
                 },
               ),
-              const SizedBox(
-                height: 16,
+              const SizedBox(height: 16),
+              IsOrganicCheckBox(
+                onChanged: (value) {
+                  isFeatured = value;
+                },
               ),
+              const SizedBox(height: 16),
               ImageField(
                 onFileChanged: (image) {
                   this.image = image;
                 },
               ),
-              const SizedBox(
-                height: 24,
-              ),
+              const SizedBox(height: 24),
               CustomButton(
                 onPressed: () {
                   if (image != null) {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      AddProductInputEntity input = AddProductInputEntity(
+                      ProductEntity input = ProductEntity(
                         name: name,
                         code: code,
                         description: description,
                         price: price,
                         image: image!,
                         isFeatured: isFeatured,
+                        expirationsMonths: expirationMonths.toInt(),
+                        isOrganic: isOrganic,
+                        numberOfCalories: numberOfCalories.toInt(),
+                        unitAmount: unitAmount.toInt(),
                       );
 
                       context.read<AddProductCubit>().addProduct(input);
@@ -120,7 +145,7 @@ class _AddProductViewBodyState extends State<AddProductViewBody> {
                 },
                 text: 'Add Product',
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 16),
             ],
           ),
         ),

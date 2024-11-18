@@ -3,8 +3,8 @@ import 'package:fruit_hub_dashboard/core/utils/app_colors.dart';
 import 'package:fruit_hub_dashboard/core/utils/app_text_styles.dart';
 import 'package:fruit_hub_dashboard/core/widgets/custom_check_box.dart';
 
-class IsFeatured extends StatefulWidget {
-  const IsFeatured({
+class IsOrganicCheckBox extends StatefulWidget {
+  const IsOrganicCheckBox({
     super.key,
     required this.onChanged,
   });
@@ -12,10 +12,10 @@ class IsFeatured extends StatefulWidget {
   final ValueChanged<bool> onChanged;
 
   @override
-  State<IsFeatured> createState() => _IsFeaturedState();
+  State<IsOrganicCheckBox> createState() => _IsOrganicCheckBoxState();
 }
 
-class _IsFeaturedState extends State<IsFeatured> {
+class _IsOrganicCheckBoxState extends State<IsOrganicCheckBox> {
   bool isTermsAccepted = false;
 
   @override
@@ -36,9 +36,9 @@ class _IsFeaturedState extends State<IsFeatured> {
             TextSpan(
               children: [
                 TextSpan(
-                  text: 'Is Featured Product?',
-                  style: TextStyles.bold13.copyWith(
-                    color: Colors.grey.shade500,
+                  text: 'Is Product Organic?',
+                  style: TextStyles.semiBold16.copyWith(
+                    color: AppColors.greyColor,
                   ),
                 ),
               ],

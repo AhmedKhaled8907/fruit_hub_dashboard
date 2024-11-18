@@ -37,16 +37,20 @@ class _ImageFieldState extends State<ImageField> {
               height: MediaQuery.sizeOf(context).height * 0.25,
               width: double.infinity,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                    16,
-                  ),
-                  border: Border.all(
-                    color: Colors.grey,
-                  )),
+                borderRadius: BorderRadius.circular(
+                  16,
+                ),
+                border: Border.all(
+                  color: const Color(0xffE6E9EA),
+                ),
+              ),
               child: fileImage != null
                   ? ClipRRect(
                       borderRadius: BorderRadius.circular(16),
-                      child: Image.file(fileImage!))
+                      child: Image.file(
+                        fileImage!,
+                      ),
+                    )
                   : const Icon(
                       Icons.image_outlined,
                       size: 180,
@@ -75,7 +79,10 @@ class _ImageFieldState extends State<ImageField> {
   Future<void> pickImage() async {
     final ImagePicker picker = ImagePicker();
 
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    final XFile? image = await picker.pickImage(
+      source: ImageSource.gallery,
+    );
+
     fileImage = File(image!.path);
 
     widget.onFileChanged(fileImage!);
